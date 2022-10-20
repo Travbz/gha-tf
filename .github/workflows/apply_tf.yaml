@@ -2,7 +2,7 @@ name: matrix
 on: push
 
 jobs:
-  deploy:
+  Node-Versions:
     runs-on: ubuntu-latest
     steps:
     - name: Node Version
