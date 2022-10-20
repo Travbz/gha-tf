@@ -14,4 +14,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Format test
         run: |
-          ${{ format('{0}-{1}', env.DIR_LOC, env.THING) }}
+          echo ${{ format('{0}-{1}', env.DIR_LOC, env.THING) }}
