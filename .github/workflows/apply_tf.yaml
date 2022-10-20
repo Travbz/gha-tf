@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Node Version
-      runs: node -v
+      run: node -v
     - uses: actions/setup-node@v2
       with:
         node-version: 8
