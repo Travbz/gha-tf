@@ -1,0 +1,45 @@
+name: Practice Bash
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run a one time script
+        run: echo Hello, workflow
+
+      - name: Run multi line script
+        run: |
+          echo 1. What is this dir
+          ls -a 
+          echo
+          echo 2. Is java installed  
+          java -version 
+          echo
+          echo 3. Is Git installed?
+          echo
+          echo 4. Whats build tools are installed?
+          mvn --version
+          gradle -- Version
+          amt -version
+          echo
+          echo 5. Where is the android SDK root?
+          echo $ANDRIOD_SDK_ROOT
+          echo
+          echo 6. Where are the selenium jars?
+          echo $SELENIUM_JAR_PATH
+          echo
+          echo 7. What is the workspace location
+          echo $RUNNER_WORKSPACE
+          echo
+          echo 8. Who is runnint the script
+          whoami
+          echo 9 What Shell
+          uname -a 
+          echo 10. How is the disc laid out?
+          df
+          echo 11. What environment variables are available?
+          environment
