@@ -12,12 +12,13 @@ env:
   DEFAULT_PATH: ./terraform
 
 jobs:
-  runs-on: ubuntu-latest
-  timeout-minutes: 5
-  defaults:
-    run:
-      working-directory: ${{ env.DEFAULT_PATH }}
-      
+  deploy-it:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: ${{ env.DEFAULT_PATH }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
