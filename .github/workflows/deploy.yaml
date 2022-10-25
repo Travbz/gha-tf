@@ -1,0 +1,62 @@
+name: Test WF
+
+on: workflow_dispatch
+
+
+env:
+  AWS_ACCESS_KEY_ID: AKIA33G7GFISMBTERH2N
+  AWS_SECRET_ACCESS_KEY: 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
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+  TERRAFORM_VERSION: 1.2.2
+  DEFAULT_PATH: ./terraform
+
+steps:
+  - name: Checkout
+    uses: actions/checkout@v2
+
+  - name: Configure AWS Creds
+    uses: aws-actions/configure-aws-credentials@v1
+    with:
+      aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+      aws-region: ${{ env.AWS_REGION }}
+      role-duration-seconds: 1200
+
+  - name: Set up Terraform
+    uses: hashicorp/setup-terraform@v1
+    with: 
+      terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+  - name: Terraform Format
+    id: fmt
+    run: terraform fmt -check
+
+  - name: Terraform Init
+    id: init
+    run: terraform init
+
+  - name: Terraform Validate
+    id: validate
+    run: terraform validate -no-color
+
+  - name: Terraform Plan
+    id: plan
+    if: github.event_name == 'pull_request'
+    run: terraform plan -no-color -input=false
+    continue-on-error: true
+
+  - name: Upload Artifact
+    id: Upload
+    uses: actions/upload-artifact@v3
+    with: 
+      name: Deploy
+      path: $DEFAULT_PATH
+
+  - name: Terraform Plan Status
+    if: steps.plan.outcome == 'failure'
+    run: exit 1
+
+  - name: Terraform Apply
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    run: terraform apply -auto-approve -input=false
