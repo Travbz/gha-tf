@@ -32,6 +32,7 @@ jobs:
           echo ${{ github.ref }}
           if [ ${{ env.STAGE == 'production' }} && ${{ github.ref != 'refs/heads/main' }} ];   
           then  
+              echo 'Invalid branch selection, production must be run on main'
               exit1  
           else  
               echo Running Apply on ${{ github.ref }};   
