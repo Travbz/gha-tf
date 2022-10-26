@@ -30,7 +30,7 @@ jobs:
       - name: Branch protection
         run: |
           echo ${{ github.ref }}
-          if [ ${{ env.STAGE == 'production' }} && ${{ github.ref != 'refs/heads/main' }} ];   
+          if [ ${{ env.STAGE == production }} && ${{ github.ref != refs/heads/main }} ];   
           then  
               echo INvalid branch, production must be run from main
               exit1  
