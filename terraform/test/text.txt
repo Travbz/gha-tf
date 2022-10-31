@@ -1,4 +1,1 @@
-Add text for pr
-More shit to test
-more lines for test
-more
+This is a text test file
