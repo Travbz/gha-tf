@@ -67,6 +67,7 @@ steps:
     run: |
       terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
 
+  - name: Post Plan to PR
   - uses: actions/github-script@v6
     if: github.event_name == 'pull_request'
     env:
@@ -118,4 +119,3 @@ steps:
       id: finished
       run: |
         echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try it!
-        
