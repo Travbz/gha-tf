@@ -32,98 +32,98 @@ jobs:
       run:
         working-directory: ${{ format ('{0}/{1}', env.TERRAFORM_PATH, matrix.stage) }}
 
-steps:
-  - name: Checkout
-    uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  - name: Config AWS Creds
-    uses: aws-actions/configure-aws-credentials@v1
-    with:
-      aws-access-key: ${{ env.AWS_ACCESS_KEY }}
-      aws-secret-key: ${{ env.AWS_SECRET_KEY }}
-      aws-region: ${{ env.AWS_DEFAULT_REGION }}
-      
-  - name: Setup TF
-    uses: hashicorp/setup-terraform@v1
-    with: 
-      terraform_version: ${{ env.TERRAFORM_VERSION }}
+      - name: Config AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key: ${{ env.AWS_ACCESS_KEY }}
+          aws-secret-key: ${{ env.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+          
+      - name: Setup TF
+        uses: hashicorp/setup-terraform@v1
+        with: 
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-  - name: Terraform format
-    id: fmt
-    continue-on-error: true
-    run: |
-      terraform fmt -check || ((($? > 0)) && echo "::set-output name=fmt_result::Terraform files are formatted incorrectly")
+      - name: Terraform format
+        id: fmt
+        continue-on-error: true
+        run: |
+          terraform fmt -check || ((($? > 0)) && echo "::set-output name=fmt_result::Terraform files are formatted incorrectly")
 
-  - name: Terraform Init
-    id: Init  
-    run: terraform Init
+      - name: Terraform Init
+        id: Init  
+        run: terraform Init
 
-  - name: Terraform Validate
-    id: validate
-    run: terraform validate -no-color
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
 
-  - name: Terraform plan
-    id: plan
-    run: |
-      terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
-    
-  - name: Upload Plan
-    id: upload
-    uses: actions/upload-artifact@v3
-    with:
-      name: ${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
-      path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+      - name: Terraform plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+        
+      - name: Upload Plan
+        id: upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+          path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
 
 
-  - name: Post Plan to PR
-    uses: actions/github-script@v6
-    if: github.event_name == 'pull_request'
-    env:
-      PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-    with:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
-      script: |
-        const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-        #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-        #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-        <details><summary>Validation Output</summary>
+      - name: Post Plan to PR
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Validation Output</summary>
 
-        \`\`\`\n
-        ${{ steps.validate.outputs.stdout }}
-        \`\`\`
+            \`\`\`\n
+            ${{ steps.validate.outputs.stdout }}
+            \`\`\`
 
-        </details>
+            </details>
 
-        #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
-        <details><summary>Show Plan</summary>
+            <details><summary>Show Plan</summary>
 
-        \`\`\`\n
-        ${process.env.PLAN}
-        \`\`\`
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
 
-        </details>
+            </details>
 
-        *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-        github.rest.issues.createComment({
-          issue_number: context.issue.number,
-          owner: context.repo.owner,
-          repo: context.repo.repo,
-          body: output
-        })
-    
-  - name: Download Artifact
-    if: github.event.pull_request.merged = true
-    uses: dawidd6/action-download-artifact@v2
-    with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      workflow_conclusion: success
-      pr: ${{ github.event.pull_request.number }}
-      name: ${{ env.PLAN_NAME }}
-      path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+        
+      - name: Download Artifact
+        if: github.event.pull_request.merged = true
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow_conclusion: success
+          pr: ${{ github.event.pull_request.number }}
+          name: ${{ env.PLAN_NAME }}
+          path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
 
-  - name: Finished
-    id: finished
-    run: |
-      echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try it!
+      - name: Finished
+        id: finished
+        run: |
+          echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try it!
