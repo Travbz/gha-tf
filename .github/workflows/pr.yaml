@@ -1,15 +1,15 @@
 name: TF PLAN
 
 on:
- pull_request:
-    branches:
-      - main
-    paths:
-      - 'terraform/**'
-    types:
-      - opened
-      - closed
-      - synchronize
+  pull_request:
+      branches:
+        - main
+      paths:
+        - 'terraform/**'
+      types:
+        - opened
+        - closed
+        - synchronize
 
 env:
   AWS_DEFAULT_REGION: us-east-1
