@@ -66,6 +66,14 @@ steps:
     id: plan
     run: |
       terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+    
+  - name: Upload Plan
+    id: upload
+    uses: actions/upload-artifact@v3
+    with:
+      name: ${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+      path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+
 
   - name: Post Plan to PR
     uses: actions/github-script@v6
