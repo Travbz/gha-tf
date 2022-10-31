@@ -1,9 +1,8 @@
 resource "aws_s3_bucket" "b" {
-  bucket = "my-tf-test-bucket"
+  bucket = "Travbz-tf-test-bucket1"
 
   tags = {
     Name        = "My bucket"
-    Environment = "Dev"
   }
 }
 
