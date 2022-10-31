@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        stage: [ 'dev', 'production' ]
+        stage: [ 'dev', 'prod' ]
       fail-fast: true
     defaults:
       run:
@@ -56,7 +56,7 @@ jobs:
 
       - name: Terraform Init
         id: Init  
-        run: terraform Init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
