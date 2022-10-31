@@ -113,17 +113,17 @@ steps:
           body: output
         })
     
-    - name: Download Artifact
-      if: github.event.pull_request.merged = true
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        workflow_conclusion: success
-        pr: ${{ github.event.pull_request.number }}
-        name: ${{ env.PLAN_NAME }}
-        path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+  - name: Download Artifact
+    if: github.event.pull_request.merged = true
+    uses: dawidd6/action-download-artifact@v2
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      workflow_conclusion: success
+      pr: ${{ github.event.pull_request.number }}
+      name: ${{ env.PLAN_NAME }}
+      path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
 
-    - name: Finished
-      id: finished
-      run: |
-        echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try it!
+  - name: Finished
+    id: finished
+    run: |
+      echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try it!
