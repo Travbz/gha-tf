@@ -1,6 +1,7 @@
 name: TF PLAN
 
 on:
+
   pull_request:
     branches:
       - main
@@ -127,3 +128,4 @@ jobs:
         id: finished
         run: |
           echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try me.
+
