@@ -1,7 +1,8 @@
 name: TF PLAN
 
 on:
- pull_request:
+
+  pull_request:
     branches:
       - main
     paths:
@@ -126,4 +127,5 @@ jobs:
       - name: Finished
         id: finished
         run: |
-          echo Workflow run was a success, proceed to manual dispatch to apply terraform.
+          echo Workflow run was a success, proceed to manual dispatch to apply terraform. Try me.
+
