@@ -1,7 +1,6 @@
 name: TF PLAN
 
 on:
-
   pull_request:
     branches:
       - main
