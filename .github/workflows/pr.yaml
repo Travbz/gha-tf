@@ -47,7 +47,6 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow_conclusion: success
           pr: ${{ github.event.pull_request.number }}
           name: ${{ env.PLAN_NAME }}
           path: ${{env.TERRAFORM_PATH }}/${{ matrix.stage }}/${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
