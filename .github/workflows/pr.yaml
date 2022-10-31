@@ -65,7 +65,7 @@ jobs:
       - name: Terraform plan
         id: plan
         run: |
-          terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', matrix.stage, env.PLAN_NAME) }}
+          terraform plan -input=false -no-color -out=${{ format ('{0}/{1}', env.TERRAFORM_PATH, matrix.stage) }}
         
       - name: Upload Plan
         id: upload
