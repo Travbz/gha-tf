@@ -18,7 +18,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
   TERRAFORM_VERSION: 1.2.2
   TERRAFORM_PATH: ./terraform
-  PLAN_NAME: plan-${{ github.head_ref }}
+  PLAN_NAME: ${{ matrix }}.txt
 
 jobs:
   plan-infrastructure:
