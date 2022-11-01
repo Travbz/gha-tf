@@ -18,7 +18,8 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
   TERRAFORM_VERSION: 1.2.2
   TERRAFORM_PATH: ./terraform
-  PLAN_NAME: ${{ matrix }}.txt
+  PLAN_NAME: plan-${{ format ('{0}.{1}',  matrix.stage, 'txt') }}
+
 
 jobs:
   plan-infrastructure:
