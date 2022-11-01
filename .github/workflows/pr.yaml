@@ -20,6 +20,7 @@ env:
   TERRAFORM_PATH: ./terraform
   PLAN_NAME: plan-${{ format ('{0}.{1}',  matrix.stage, 'txt') }}
 
+
 jobs:
   plan-infrastructure:
     runs-on: ubuntu-latest
