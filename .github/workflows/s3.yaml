@@ -16,7 +16,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow_conclusion: neutral
           workflow: s3.yml
-          if_no_artifact_found: fail
+          if_no_artifact_found: warn
 
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
