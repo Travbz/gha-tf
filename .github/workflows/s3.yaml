@@ -1,7 +1,11 @@
 name: Upload to s3
     
 run-name: ${{ github.actor }} is deploying infrastructure to AWS
-on: pull_request
+on: 
+  pull_request:
+    branches:
+    - main
+    types: [ opened, closed, synchronize, reopened ]
 
 env:
   TERRAFORM_PATH: .terraform/
@@ -9,9 +13,6 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
   AWS_S3_BUCKET: ${{ AWS_S3_BUCKET }}
   
-
-
-
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -114,8 +115,6 @@ jobs:
           name: artifact_name
           search_artifacts: true
           if_no_artifact_found: fail
-
-
 
       - name: Terraform Apply
         if: github.event_name.pull_request.merged == true
