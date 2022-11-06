@@ -17,11 +17,6 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Actor Initiated
-        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -67,7 +62,7 @@ jobs:
           name: test-infra
           path: path/to/artifact/world.txt
 
-
+      - name: Set up PR comments
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
