@@ -25,11 +25,11 @@ jobs:
           aws-region: us-west-1
 
       - name: Check out repository code
+        id: chckoutRepo
         uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
-        name: Setup TF
+      - name: Setup TF
+        id: setup
       - uses: hashicorp/setup-terraform@v2
 
       - name: Terraform fmt
@@ -52,6 +52,7 @@ jobs:
         continue-on-error: true
 
       - name: Terraform Plan Status
+        id: planstat
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
