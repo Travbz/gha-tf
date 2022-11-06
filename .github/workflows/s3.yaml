@@ -11,11 +11,13 @@ env:
   TERRAFORM_PATH: .terraform/
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  AWS_S3_BUCKET: ${{ AWS_S3_BUCKET }}
   
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_PATH }}
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -47,14 +49,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
+        if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == false) }}
         run: terraform plan -no-color -input=false
         continue-on-error: true
-
-      - name: Terraform Plan Status
-        id: planstat
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
 
       - name: Upload Artifact
         id: Upload
