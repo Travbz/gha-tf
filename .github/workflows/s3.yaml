@@ -63,6 +63,8 @@ jobs:
           name: test-infra
           path: path/to/artifact/world.txt
 
+      # s3 upload here
+
       - name: Set up PR comments
         uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
