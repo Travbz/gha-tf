@@ -30,7 +30,7 @@ jobs:
 
       - name: Setup TF
         id: setup
-      - uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v2
 
       - name: Terraform fmt
         id: fmt
@@ -58,13 +58,13 @@ jobs:
 
       - name: Upload Artifact
         id: Upload
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: test-infra
           path: path/to/artifact/world.txt
 
       - name: Set up PR comments
-      - uses: actions/github-script@v6
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
