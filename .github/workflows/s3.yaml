@@ -7,17 +7,12 @@ on:
     - main
     types: [ opened, closed, synchronize, reopened ]
 
-
-
 env:
   TERRAFORM_PATH: .terraform/
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
   AWS_S3_BUCKET: ${{ AWS_S3_BUCKET }}
   
-
-
-
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
