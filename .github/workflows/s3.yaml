@@ -115,8 +115,6 @@ jobs:
           search_artifacts: true
           if_no_artifact_found: fail
 
-
-
       - name: Terraform Apply
         if: github.event_name.pull_request.merged == true
         run: |
