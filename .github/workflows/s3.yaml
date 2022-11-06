@@ -114,7 +114,5 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name.pull_request.merged == true
-        run: |
-          terraform apply -auto-approve -input=false
-          echo Youre close af
-
+        run: terraform apply -auto-approve -input=false
+          
