@@ -30,8 +30,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
-          role-to-assume: arn:aws:iam::814364371492:role/github_s3_full
-          role-session-name: ghasamplesession
 
       - name: Check out repository code
         id: chckoutRepo
