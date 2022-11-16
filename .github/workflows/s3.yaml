@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
     - main
+    paths:
+      - 'terraform/**'
     types: [ opened, closed, synchronize, reopened ]
 
 env:
@@ -75,15 +77,6 @@ jobs:
           name: artifact_name
           search_artifacts: true
           if_no_artifact_found: fail
-
-      - name: Upload to S3
-        uses: shallwefootball/s3-upload-action@master
-        id: S3
-        with:
-          aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: tf-practice-bucket
-          source_dir: ${{ env.TERRAFORM_PATH }}
 
       - name: Terraform Apply
         if: github.event_name.pull_request.merged == true
