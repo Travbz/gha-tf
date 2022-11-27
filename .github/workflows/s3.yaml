@@ -49,25 +49,6 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
 
-      - name: Setup TF
-        id: setup
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == false) }}
-        run: |
-             terraform plan -no-color -out=$${{ format('{0}-{1}', matrix.stage, env.PLAN_NAME) }} \
-             && terraform show -no-color ${{ format('{0}-{1}', matrix.stage, env.PLAN_NAME) }}
-      
       - name: Upload Artifact To PR Actions
         id: Upload
         if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == false) }}
