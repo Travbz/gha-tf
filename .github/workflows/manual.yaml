@@ -32,9 +32,6 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: s3.yaml
-          workflow_conclusion: success
-          branch: main
           name: env.ARTIFACT_NAME
           search_artifacts: true
           if_no_artifact_found: fail
