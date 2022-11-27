@@ -30,16 +30,17 @@ jobs:
 
       - name: Download artifact
         id: download-artifact
-        run: |
-          gh run download -n ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
-        env:
-           GH_TOKEN: ${{ github.token }}
-
-      - name: Upload Artifact To PR Actions
-        id: Upload
-        uses: actions/upload-artifact@v3
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: env.WORKFLOW
+          workflow_conclusion: success
+          branch: main
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
-          path: ${{ env.TERRAFORM_PATH }}/${{ env.ARITFACT_NAME }}
+          search_artifacts: true
+          if_no_artifact_found: fail
+          path: ${{ env.TERRAFORM_PATH }}/${{ github.events.inputs.environmet }}
+
+
+
 
 
