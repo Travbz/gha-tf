@@ -14,7 +14,7 @@ on:
 env:
   TERRAFORM_PLAN: terraform-plan
   STATUS: merged
-  ARTIFACT_NAME: ${{ github.events.inputs.environment }}
+  ARTIFACT_NAME: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
 
 
@@ -37,7 +37,7 @@ jobs:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
           search_artifacts: true
           if_no_artifact_found: fail
-          path: ${{ env.TERRAFORM_PATH }}/${{ github.events.inputs.environment }}
+          path: ${{ env.TERRAFORM_PATH }}/${{ github.event.inputs.environment }}
 
       - name: Print Contents
         id: content
