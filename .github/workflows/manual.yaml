@@ -13,7 +13,7 @@ on:
 
 env:
   TERRAFORM_PATH: ./terraform
-  ARTIFACT_NAME: ${{ format('{0}-{1}-{2}', merged, github.events.inputs.environmet, terraform-plan) }}
+  ARTIFACT_NAME: merged-${{ github.events.inputs.environmet }}-terraform-plan
 
 
 jobs:
@@ -40,4 +40,4 @@ jobs:
 
       - name: Print Contents
         id: content
-        run: cat ${{ format('{0}.{1}', env.ARTIFACT_NAME, txt)}
+        run: cat ${{ github.events.inputs.environmet }}.txt
