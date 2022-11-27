@@ -74,5 +74,10 @@ jobs:
         if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == true) }}
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ format('{0}-{1}', matrix.stage, env.PLAN_NAME) }}
+          name: ${{ format('{0}-{1}-{2}', env.MERGED, matrix.stage, env.PLAN_NAME) }}
           path: ${{ env.TERRAFORM_PATH }}/${{ matrix.stage }}
+
+      - name: Cat Artifact
+        id: Cat
+        if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == true) }}
+        run: cat ${{ format('{0}-{1}-{2}', env.MERGED, matrix.stage, env.PLAN_NAME) }}
