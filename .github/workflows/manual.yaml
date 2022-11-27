@@ -12,6 +12,7 @@ on:
           - preproduction
 
 env:
+  TERRAFORM_PATH: ./terraform
   TERRAFORM_PLAN: terraform-plan
   STATUS: merged
   ARTIFACT_NAME: ${{ github.event.inputs.environment }}
