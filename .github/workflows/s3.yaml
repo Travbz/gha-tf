@@ -76,3 +76,8 @@ jobs:
         with:
           name: ${{ format('{0}-{1}-{2}', env.MERGED, matrix.stage, env.PLAN_NAME) }}
           path: ${{ env.TERRAFORM_PATH }}/${{ matrix.stage }}
+
+      - name: Print Contents
+        id: cat
+        if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == true) }}
+        run: cat ${{ format('{0}-{1}-{2}', env.MERGED, matrix.stage, env.PLAN_NAME) }}
