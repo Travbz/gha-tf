@@ -32,6 +32,8 @@ jobs:
         id: download-artifact
         run: |
           gh run download -n merged-${{ github.event.input.environment }}-terraform-plan
+        env:
+           GH_TOKEN: ${{ github.token }}
 
 
 
