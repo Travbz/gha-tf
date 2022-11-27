@@ -40,4 +40,4 @@ jobs:
 
       - name: Print Contents
         id: content
-        run: cat ${{ format('{0}.{1}', env.ARTIFACT_NAME, txt)}
+        run: cat ${{ github.events.inputs.environmet }}.txt
