@@ -34,9 +34,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: s3.yaml
           workflow_conclusion: success
+          branch: main
           name: env.ARTIFACT_NAME
           search_artifacts: true
-          if_no_artifact_found: fail
+          if_no_artifact_found: warn
           path: ${{ env.TERRAFORM_PATH }}/${{ github.events.inputs.environmet }}
 
       - name: Print Contents
