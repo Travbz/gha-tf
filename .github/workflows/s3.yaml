@@ -112,7 +112,7 @@ jobs:
         with:
           workflow: s3.yaml
           workflow_conclusion: success
-          name: t${{ format('{0}-{1}', matirx.stage, env.PLAN_NAME) }}
+          name: t${{ format('{0}-{1}', matrix.stage, env.PLAN_NAME) }}
           search_artifacts: true
           if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}/${{ matrix.stage }}
