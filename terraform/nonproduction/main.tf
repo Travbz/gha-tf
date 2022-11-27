@@ -19,27 +19,12 @@ terraform {
   }
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket-nonp"
+  acl    = "private"
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "travis-hellow-world-instance" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-
-  tags = {
-    Name = "HelloWorld"
+  versioning {
+    enabled = true
   }
 }

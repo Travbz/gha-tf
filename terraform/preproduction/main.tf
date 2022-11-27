@@ -19,11 +19,12 @@ terraform {
   }
 }
 
-resource "aws_instance" "travis-hellow-world-instance-2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
 
-  tags = {
-    Name = "HelloWorld2"
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket-prep"
+  acl    = "private"
+
+  versioning {
+    enabled = true
   }
 }
