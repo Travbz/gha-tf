@@ -35,7 +35,7 @@ jobs:
       max-parallel: 1
     defaults:
       run:
-        working-directory: ${{ env.TERRAFORM_PATH }}
+        working-directory: ${{ format('{0}-{1}', env.TERRAFORM_PATH, matrix.stage) }}
 
     steps:
       - name: Configure AWS Credentials
