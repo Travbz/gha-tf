@@ -13,7 +13,7 @@ on:
 
 env:
   TERRAFORM_PATH: ./terraform
-  ARTIFACT_NAME: merged-${{ github.events.inputs.environmet }}-terraform-plan
+  ARTIFACT_NAME: merged-nonproduction-terraform-plan
 
 
 jobs:
