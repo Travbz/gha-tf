@@ -8,14 +8,14 @@ terraform {
 }
 
 provider "aws" {
-    region = "us-east-1"
+    region = "us-west-1"
 }
 
 terraform {
   backend "s3" {
     bucket = "travbz-terraform-state"
     key    = "stravbz-terraform-state/gha-remote-state/"
-    region = "us-east-1"
+    region = "us-west-1"
   }
 }
 
