@@ -12,7 +12,6 @@ on:
           - preproduction
 
 env:
-  TERRAFORM_PATH: ./terraform
   ARTIFACT_NAME: merged-${{ github.events.inputs.environmet }}-terraform-plan
   WORKFLOW: s3.yaml
 
