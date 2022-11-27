@@ -30,14 +30,8 @@ jobs:
 
       - name: Download artifact
         id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
-          workflow: env.WORKFLOW
-          workflow_conclusion: success
-          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
-          search_artifacts: true
-          if_no_artifact_found: fail
-          path: ${{ env.TERRAFORM_PATH }}/${{ github.event.inputs.environment }}
+        run: |
+          gh run download -n merged-${{ github.event.input.environment }}-terraform-plan
+
 
 
