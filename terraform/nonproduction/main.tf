@@ -15,7 +15,7 @@ terraform {
   backend "s3" {
     bucket = "travbz-terraform-state"
     key    = "stravbz-terraform-state/gha-remote-state/"
-    region = "us-west-1"
+    region = "us-east-1"
   }
 }
 
