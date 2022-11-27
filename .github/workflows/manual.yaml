@@ -41,3 +41,4 @@ jobs:
       - name: Print Contents
         id: content
         run: cat ${{ github.events.inputs.environmet }}.txt
+
