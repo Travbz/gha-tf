@@ -11,7 +11,7 @@ on:
 
 env:
   TERRAFORM_PATH: ./terraform
-  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_REGION: us-west-1
   AWS_DEFAULT_OUTPUT: json
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
@@ -35,7 +35,7 @@ jobs:
       max-parallel: 1
     defaults:
       run:
-        working-directory: ${{ env.TERRAFORM_PATH }}
+        working-directory: ${{ format('{0}/{1}', env.TERRAFORM_PATH, matrix.stage) }}
 
     steps:
       - name: Configure AWS Credentials
@@ -48,62 +48,6 @@ jobs:
       - name: Check out repository code
         id: chckoutRepo
         uses: actions/checkout@v3
-
-      - name: Setup TF
-        id: setup
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        if: ${{ (github.event_name == 'pull_request') && (github.event.pull_request.merged == false) }}
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
-        
-- uses: actions/github-script@v6
-  if: github.event_name == 'pull_request'
-  env:
-    PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    script: |
-      const output = `#### Terraform Format and Style \`${{ steps.fmt.outcome }}\`
-      #### ${{ matrix.stage }} Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-      #### ${{ matrix.stage }} Terraform Validation \`${{ steps.validate.outcome }}\`
-      <details><summary>Validation Output</summary>
-
-      \`\`\`\n
-      ${{ steps.validate.outputs.stdout }}
-      \`\`\`
-
-      </details>
-
-      #### ${{ matrix.stage }} Terraform Plan \`${{ steps.plan.outcome }}\`
-
-      <details><summary>Show Plan</summary>
-
-      \`\`\`\n
-      ${process.env.PLAN}
-      \`\`\`
-
-      </details>
-
-      *Pusher: @${{ github.actor }}, Workflow: \`${{ github.workflow }}\`*`;
-
-      github.rest.issues.createComment({
-        issue_number: context.issue.number,
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        body: output
-      })
-
 
       - name: Upload Artifact To PR Actions
         id: Upload
