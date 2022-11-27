@@ -14,6 +14,7 @@ on:
 env:
   TERRAFORM_PATH: ./terraform
   ARTIFACT_NAME: merged-nonproduction-terraform-plan
+  WORKFLOW: s3.yaml
 
 
 jobs:
@@ -32,9 +33,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: s3.yaml
+          workflow: env.WORKFLOW
           workflow_conclusion: success
-          branch: main
           name: env.ARTIFACT_NAME
           search_artifacts: true
           if_no_artifact_found: warn
