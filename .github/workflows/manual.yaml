@@ -39,7 +39,4 @@ jobs:
           if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}/${{ github.event.inputs.environment }}
 
-      - name: Print Contents
-        id: content
-        run: cat nonproduction.txt
 
