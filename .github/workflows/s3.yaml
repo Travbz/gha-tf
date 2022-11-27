@@ -62,6 +62,7 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
           workflow: s3.yaml
           workflow_conclusion: success
           name: ${{ format('{0}-{1}', matrix.stage, env.PLAN_NAME) }}
