@@ -12,9 +12,9 @@ on:
           - preproduction
 
 env:
-  TERRAFORM_PLAN: -terraform-plan
+  TERRAFORM_PLAN: terraform-plan
   STATUS: merged
-  ARTIFACT_NAME: ${{ github.events.inputs.environmet }}
+  ARTIFACT_NAME: ${{ github.events.inputs.environment }}
   WORKFLOW: s3.yaml
 
 
