@@ -21,9 +21,7 @@ env:
 jobs:
   apply-plan:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.TERRAFORM_PATH }}
+
     steps:
       - name: Check out repository code
         id: chckoutRepo
