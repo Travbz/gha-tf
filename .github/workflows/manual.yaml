@@ -32,10 +32,11 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: env.WORKFLOW
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: s3.yaml
           workflow_conclusion: success
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
-          path: ${{ env.TERRAFORM_PATH }}/${{ github.events.inputs.environmet }}/${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
+          path: ${{ env.TERRAFORM_PATH }}
 
 
 
