@@ -38,7 +38,11 @@ jobs:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
 
-
-
+      - name: Upload Artifact To PR Actions
+        id: uploadMerged
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
+          path: ${{ env.TERRAFORM_PATH }}
 
 
