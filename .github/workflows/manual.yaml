@@ -34,10 +34,7 @@ jobs:
         with:
           workflow: env.WORKFLOW
           workflow_conclusion: success
-          branch: main
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
-          search_artifacts: true
-          if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}/${{ github.events.inputs.environmet }}
 
 
