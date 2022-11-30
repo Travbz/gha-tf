@@ -11,11 +11,6 @@ on:
 
 env:
   TERRAFORM_PATH: ./terraform
-  AWS_DEFAULT_REGION: us-west-1
-  AWS_DEFAULT_OUTPUT: json
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  BUCKET_NAME: "tf-practice-bucket"
   PLAN_NAME: terraform-plan
   MERGED: merged
 
@@ -38,13 +33,6 @@ jobs:
         working-directory: ${{ format('{0}/{1}', env.TERRAFORM_PATH, matrix.stage) }}
 
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-1
-
       - name: Check out repository code
         id: chckoutRepo
         uses: actions/checkout@v3
