@@ -36,7 +36,6 @@ jobs:
           then
               exit 1
           else [ env.STAGE != 'preproduction' ]
-          then  
               exit 0
           fi
 
