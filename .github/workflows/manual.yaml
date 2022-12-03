@@ -15,17 +15,14 @@ env:
   TERRAFORM_PATH: ./terraform/${{ github.event.inputs.environment }}
   TERRAFORM_PLAN: terraform-plan
   STATUS: merged
-  STAGE: ${{ github.events.inputs.environment }}
+  ARTIFACT_NAME: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
-  PLAN: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
 
 
 jobs:
   apply-plan:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.TERRAFORM_PATH }}
+
     steps:
       - name: Check out repository code
         id: chckoutRepo
@@ -35,10 +32,16 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: env.WORKFLOW
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: s3.yaml
           workflow_conclusion: success
-          branch: main
-          name: env.PLAN
-          search_artifacts: true
-          if_no_artifact_found: fail
+          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
+
+      - name: Upload Artifact To PR Actions
+        id: uploadMerged
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
+          path: ${{ env.TERRAFORM_PATH }}
+
