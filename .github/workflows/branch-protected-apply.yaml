@@ -45,7 +45,6 @@ jobs:
         with:
           workflow: env.WORKFLOW
           workflow_conclusion: success
-          branch: main
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}
