@@ -43,10 +43,9 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: env.WORKFLOW
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: s3.yaml
           workflow_conclusion: success
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
-          if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}
-
 
