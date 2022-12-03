@@ -17,8 +17,6 @@ env:
   STATUS: merged
   STAGE: ${{ github.events.inputs.environment }}
   WORKFLOW: s3.yaml
-  PLAN: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
-
 
 jobs:
   apply-plan:
@@ -49,7 +47,7 @@ jobs:
           workflow: env.WORKFLOW
           workflow_conclusion: success
           branch: main
-          name: env.PLAN
+          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           search_artifacts: true
           if_no_artifact_found: fail
           path: ${{ env.TERRAFORM_PATH }}
