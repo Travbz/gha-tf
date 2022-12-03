@@ -25,6 +25,10 @@ jobs:
       run:
         working-directory: ${{ env.TERRAFORM_PATH }}
     steps:
+      - name: Check out repository code
+        id: chckoutRepo
+        uses: actions/checkout@v3
+        
       - name: Branch Protection
         id: Branch
         run: |
@@ -35,10 +39,6 @@ jobs:
           then  
               exit 0
           fi
-
-      - name: Check out repository code
-        id: chckoutRepo
-        uses: actions/checkout@v3
 
       - name: Download artifact
         id: download-artifact
