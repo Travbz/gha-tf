@@ -1,0 +1,57 @@
+name: Manual Apply
+
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        required: true
+        description: 'Environment Name'
+        options:
+          - nonproduction
+          - preproduction
+
+env:
+  TERRAFORM_PATH: ./terraform/${{ github.event.inputs.environment }}
+  TERRAFORM_PLAN: terraform-plan
+  STATUS: merged
+  STAGE: ${{ github.events.inputs.environment }}
+  WORKFLOW: s3.yaml
+  PLAN: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
+
+
+jobs:
+  apply-plan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_PATH }}
+    steps:
+      - name: Branch Protection
+        id: Branch
+        run: |
+          if [ env.STAGE == 'preproduction' ] && [ github.ref != 'refs/heads/main' ]
+          then
+              exit 1
+          else [ env.STAGE != 'preproduction' ]
+          then  
+              exit 0
+          fi
+
+      - name: Check out repository code
+        id: chckoutRepo
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: env.WORKFLOW
+          workflow_conclusion: success
+          branch: main
+          name: env.PLAN
+          search_artifacts: true
+          if_no_artifact_found: fail
+          path: ${{ env.TERRAFORM_PATH }}
+
+
