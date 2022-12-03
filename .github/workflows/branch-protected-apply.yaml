@@ -1,4 +1,4 @@
-name: Manual Apply
+name: Apply Branch
 
 on: 
   workflow_dispatch:
