@@ -15,7 +15,7 @@ env:
   TERRAFORM_PATH: ./terraform/${{ github.event.inputs.environment }}
   TERRAFORM_PLAN: terraform-plan
   STATUS: merged
-  STAGE: ${{ github.events.inputs.environment }}
+  STAGE: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
 
 jobs:
