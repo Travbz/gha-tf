@@ -18,7 +18,6 @@ env:
   STATUS: merged
   STAGE: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
-  BRANCH: ${GITHUB_REF##*/}
 
 
 jobs:
@@ -32,9 +31,11 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
         
-      - name: Branch Check
-        id: branch
-        run: echo env.BRANCH
+      - name: Get the current branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: myref
+
         
       - name: Download artifact
         id: download-artifact
@@ -62,7 +63,7 @@ jobs:
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (env.BRANCH == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (steps.myref.outputs.branch == 'main') }}
         run: |
           echo "Applying tf to prod"
 
