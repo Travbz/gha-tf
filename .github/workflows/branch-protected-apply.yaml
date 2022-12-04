@@ -18,6 +18,8 @@ env:
   STATUS: merged
   STAGE: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
+  BRANCH: ${GITHUB_REF##*/}
+
 
 jobs:
   apply-plan:
@@ -32,7 +34,7 @@ jobs:
         
       - name: Branch Check
         id: branch
-        run: echo 'github.ref'
+        run: echo env.BRANCH
         
       - name: Download artifact
         id: download-artifact
@@ -56,11 +58,11 @@ jobs:
         id: apply
         if: ${{ github.event.inputs.environment != 'production' }}
         run: |
-          echo "Applying ${ env.STAGE }"
+          echo "Applying TF"
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (github.ref == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (env.BRANCH == 'main) }}
         run: |
-          echo "Applying ${ env.STAGE }"
+          echo "Applying tf to prod"
 
