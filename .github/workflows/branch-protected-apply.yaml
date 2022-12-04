@@ -52,14 +52,14 @@ jobs:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
 
-      - name: Apply
+      - name: Apply Lower Envs
         id: apply
         if: ${{ github.event.inputs.environment != 'production' }}
         run: |
           echo "Applying ${ env.STAGE }"
           
-      - name: Apply
-        id: apply
+      - name: Apply Prod
+        id: apply-prod
         if: ${{ (github.event.inputs.environment == 'production') && (github.ref == 'main') }}
         run: |
           echo "Applying ${ env.STAGE }"
