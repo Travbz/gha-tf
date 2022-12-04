@@ -60,7 +60,7 @@ jobs:
           
       - name: Apply
         id: apply
-        if: ${{ (github.event.inputs.environment == 'production') && (guthub.ref == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (github.ref == 'main') }}
         run: |
           echo "Applying ${ env.STAGE }"
 
