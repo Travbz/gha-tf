@@ -33,14 +33,8 @@ jobs:
  
       - name: Get branch names
         id: refname
-        run: |
-          echo ${{ github.ref_name }}
-#         id: branch-name
-#         uses: tj-actions/branch-names@v6
+        run: echo ${{ github.ref_name }}
 
-#       - name: Current branch name
-#         run: |
-#           echo "${{ steps.branch-name.outputs.current_branch }}"
       
       - name: Download artifact
         id: download-artifact
@@ -60,7 +54,7 @@ jobs:
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (steps.branch-name.outputs.current_branch == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (steps.refname.outputs == 'main') }}
         run: |
           echo "Applying tf to prod"
           
