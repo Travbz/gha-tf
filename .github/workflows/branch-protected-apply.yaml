@@ -31,14 +31,14 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
         
-      - name: Get branch name
+      - name: Get branch names
         id: branch-name
         uses: tj-actions/branch-names@v6
-        
-      - name: Echo Branch Name
+
+      - name: Current branch name
         run: |
-          echo "BRANCH: ${{ steps.branch-name.outputs.current_branch }}"
-        # Outputs: "BRANCH: branch".
+          echo "${{ steps.branch-name.outputs.current_branch }}"
+
       
       - name: Download artifact
         id: download-artifact
