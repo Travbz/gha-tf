@@ -21,7 +21,6 @@ env:
 
 jobs:
   apply-plan:
-    if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,6 +33,13 @@ jobs:
       - name: Get branch names
         id: refname
         run: echo ${{ github.ref_name }}
+
+      - name: Fail If Branch Not Main
+        id: check-branch
+        if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
+        run: | 
+          exit 1 
+          echo "failed because you tried to apply terraform from a side branch to production, please choose main branch"
 
       - name: Download artifact
         id: download-artifact
