@@ -19,7 +19,6 @@ env:
   STAGE: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
 
-
 jobs:
   apply-plan:
     runs-on: ubuntu-latest
@@ -35,7 +34,6 @@ jobs:
         id: refname
         run: echo ${{ github.ref_name }}
 
-      
       - name: Download artifact
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
@@ -54,7 +52,7 @@ jobs:
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (steps.refname.outputs == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name == 'main') }}
         run: |
           echo "Applying tf to prod"
           
