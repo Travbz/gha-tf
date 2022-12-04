@@ -30,9 +30,12 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
         
+      - name: Branch Check
+        id: branch
+        run: echo 'github.ref'
+        
       - name: Download artifact
         id: download-artifact
-        if: ${{ (github.event.inputs.environment != 'production') || [ (github.event.inputs.environment == 'production') && (${GITHUB_REF##*/} == 'main) ] }}
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +46,7 @@ jobs:
 
       - name: Upload Artifact To PR Actions
         id: uploadMerged
-        if: ${{ github.event.inputs.environment == 'nonproduction' }}
+        if: ${{ github.event.inputs.environment != 'production' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
@@ -51,4 +54,13 @@ jobs:
 
       - name: Apply
         id: apply
-        if
+        if: ${{ github.event.inputs.environment != 'production' }}
+        run: |
+          echo "Applying ${ env.STAGE }"
+          
+      - name: Apply
+        id: apply
+        if: ${{ (github.event.inputs.environment == 'production') && (guthb.ref == 'main') }}
+        run: |
+          echo "Applying ${ env.STAGE }"
+
