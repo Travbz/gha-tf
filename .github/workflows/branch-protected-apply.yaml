@@ -33,9 +33,14 @@ jobs:
         
       - name: Get the current branch name
         shell: bash
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $(GITHUB_OUTPUT)
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: myref
 
+      - name: Print Branch
+        id: branch-name
+        run: echo '${{ steps.myref.outputs }}'
+      
+      
       - name: Download artifact
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
