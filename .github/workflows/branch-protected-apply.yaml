@@ -58,7 +58,7 @@ jobs:
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (steps.branch-name.outputs.branch.current_branch == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (steps.branch-name.outputs.current_branch == 'main') }}
         run: |
           echo "Applying tf to prod"
           
