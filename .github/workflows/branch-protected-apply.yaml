@@ -51,14 +51,6 @@ jobs:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
 
-      - name: Upload Artifact To PR Actions
-        id: uploadMerged
-        if: ${{ github.event.inputs.environment != 'production' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
-          path: ${{ env.TERRAFORM_PATH }}
-
       - name: Apply Lower Envs
         id: apply
         if: ${{ github.event.inputs.environment != 'production' }}
@@ -70,4 +62,11 @@ jobs:
         if: ${{ (github.event.inputs.environment == 'production') && (steps.branch-name.outputs.branch == 'main') }}
         run: |
           echo "Applying tf to prod"
+          
+      - name: Upload Artifact To PR Actions
+        id: uploadMerged
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
+          path: ${{ env.TERRAFORM_PATH }}
 
