@@ -32,12 +32,16 @@ jobs:
       - name: Branch Protection
         id: Branch
         run: |
-          if [ env.STAGE == 'preproduction' ] && [ github.ref != 'refs/heads/main' ]
+          echo "Ensuring branch is main if env is preprod"
+          if [[ env.STAGE == 'preproduction'  &&  github.ref != 'refs/heads/main' ]]
           then
+              echo "exiting job as branch is not set to main, for this env branch must be set to main"
               exit 1
-          else [ env.STAGE != 'preproduction' ]
+          else [ env.STAGE != 'preproduction' ] 
+              echo "applying terraform for env.STAGE"
               exit 0
           fi
+
 
       - name: Download artifact
         id: download-artifact
