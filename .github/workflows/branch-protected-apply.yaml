@@ -10,6 +10,7 @@ on:
         options:
           - nonproduction
           - preproduction
+          - production
 
 env:
   TERRAFORM_PATH: ./terraform/${{ github.event.inputs.environment }}
