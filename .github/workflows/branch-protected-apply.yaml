@@ -36,9 +36,8 @@ jobs:
         uses: tj-actions/branch-names@v6
         
       - name: Running on the default branch.
-        if: steps.branch-name.outputs.is_default == 'true'
         run: |
-          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+          echo "BRANCH: ${{ steps.branch-name.outputs.current_branch }}"
         # Outputs: "Running on default: main".
       
       - name: Download artifact
