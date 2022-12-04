@@ -21,6 +21,7 @@ env:
 
 jobs:
   apply-plan:
+    if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,11 +30,6 @@ jobs:
       - name: Check out repository code
         id: chckoutRepo
         uses: actions/checkout@v3
-      
-      - name: Quit if branch not main on prod
-        id: check-check
-        if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
-        run: exit 1
  
       - name: Get branch names
         id: refname
