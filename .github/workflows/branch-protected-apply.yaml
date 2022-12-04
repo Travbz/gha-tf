@@ -29,22 +29,9 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
         
-      - name: Branch name
-        id: branch
-        run: echo 'running on branch ${GITHUB_REF##*/}'
-        
-      - name: Environment
-        id: select-envirnoment
-        run: echo 'env is github.event.inputs.environment'
-        
-      - name: Exit 
-        id: exit-if-prod
-        if: ${{ (steps.branch.outputs != 'main') && (steps.select-environment.outputs == preproduction) }}
-        run: exit 1
-
-        
       - name: Download artifact
         id: download-artifact
+        if: ${{ github.event.inputs.environment == 'nonproduction' }}
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -55,7 +42,9 @@ jobs:
 
       - name: Upload Artifact To PR Actions
         id: uploadMerged
+        if: ${{ github.event.inputs.environment == 'nonproduction' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
+
