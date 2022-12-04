@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix: 
-        stage: [ 'nonproduction', 'preproduction' ]
+        stage: [ 'nonproduction', 'preproduction', 'production' ]
       fail-fast: true
       max-parallel: 1
     defaults:
