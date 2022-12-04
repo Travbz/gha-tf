@@ -32,7 +32,7 @@ jobs:
         
       - name: Download artifact
         id: download-artifact
-        if: ${{ github.event.inputs.environment == 'nonproduction' }}
+        if: ${{ (github.event.inputs.environment != 'production') || [ (github.event.inputs.environment == 'production') && (${GITHUB_REF##*/} == 'main) ] }}
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,3 +49,6 @@ jobs:
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.STAGE, env.TERRAFORM_PLAN) }}
           path: ${{ env.TERRAFORM_PATH }}
 
+      - name: Apply
+        id: apply
+        if
