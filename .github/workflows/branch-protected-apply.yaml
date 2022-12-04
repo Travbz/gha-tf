@@ -31,15 +31,15 @@ jobs:
         id: chckoutRepo
         uses: actions/checkout@v3
         
-      - name: Get the current branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: myref
-
-      - name: Print Branch
+      - name: Get branch name
         id: branch-name
-        run: echo '${{ steps.myref.outputs }}'
-      
+        uses: tj-actions/branch-names@v6
+        
+      - name: Running on the default branch.
+        if: steps.branch-name.outputs.is_default == 'true'
+        run: |
+          echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}"
+        # Outputs: "Running on default: main".
       
       - name: Download artifact
         id: download-artifact
@@ -67,7 +67,7 @@ jobs:
           
       - name: Apply Prod
         id: apply-prod
-        if: ${{ (github.event.inputs.environment == 'production') && (steps.myref.outputs.branch == 'main') }}
+        if: ${{ (github.event.inputs.environment == 'production') && (steps.branch-name.outputs.branch == 'main') }}
         run: |
           echo "Applying tf to prod"
 
