@@ -40,6 +40,7 @@ jobs:
       - name: Exit 
         id: exit-if-prod
         if: ${{ (steps.branch.outputs != 'main') && (steps.select-environment.outputs == preproduction) }}
+        run: exit 1
 
         
       - name: Download artifact
