@@ -30,15 +30,17 @@ jobs:
       - name: Check out repository code
         id: chckoutRepo
         uses: actions/checkout@v3
-        
+ 
       - name: Get branch names
-        id: branch-name
-        uses: tj-actions/branch-names@v6
-
-      - name: Current branch name
+        id: refname
         run: |
-          echo "${{ steps.branch-name.outputs.current_branch }}"
+          echo ${{ github.ref_name }}
+#         id: branch-name
+#         uses: tj-actions/branch-names@v6
 
+#       - name: Current branch name
+#         run: |
+#           echo "${{ steps.branch-name.outputs.current_branch }}"
       
       - name: Download artifact
         id: download-artifact
