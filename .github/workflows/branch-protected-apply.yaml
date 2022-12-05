@@ -18,6 +18,7 @@ env:
   STATUS: merged
   STAGE: ${{ github.event.inputs.environment }}
   WORKFLOW: s3.yaml
+  CONDITION_MERGED: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
 
 jobs:
   apply-plan:
@@ -36,7 +37,7 @@ jobs:
 
       - name: Fail If Branch Not Main
         id: check-branch
-        if: ${{ (github.event.inputs.environment == 'production') && (github.ref_name != 'main') }}
+        if: ${{ CONDITION_MERGED }}
         run: | 
           exit 1 
           echo "failed because you tried to apply terraform from a side branch to production, please choose main branch"
