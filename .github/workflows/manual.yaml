@@ -33,9 +33,10 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: s3.yaml
-          workflow_conclusion: success
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
+          workflow: s3.yaml
+          search_workflow: true
+          workflow_conclusion: success
           path: ${{ env.TERRAFORM_PATH }}
 
       - name: Upload Artifact To PR Actions
