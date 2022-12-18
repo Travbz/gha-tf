@@ -35,7 +35,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ format('{0}-{1}-{2}', env.STATUS, env.ARTIFACT_NAME, env.TERRAFORM_PLAN) }}
           workflow: s3.yaml
-          search_workflow: true
+          check_artifacts: true
+          search_artifacts: true
           workflow_conclusion: success
           path: ${{ env.TERRAFORM_PATH }}
 
